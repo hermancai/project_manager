@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .flexCenter {
+    @apply flex justify-center items-center;
+  }
+
+  .customGradient {
+    @apply bg-gradient-to-r from-indigo-300 to-sky-300;
+  }
+
+  .inputBlack {
+    @apply border-2 border-gray-400 rounded outline-none focus:border-black p-2;
+  }
+}
