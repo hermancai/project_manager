@@ -10,7 +10,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/login", require("./routes/auth"));
+app.use("/api/users", require("./routes/userRoutes"));
 app.use("/api/projects", require("./routes/projectRoutes"));
 
 app.use(errorHandler);
