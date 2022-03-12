@@ -1,23 +1,18 @@
-import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import Login from "./components/Login";
-import Signup from "./components/Signup";
-import Projects from "./components/Projects";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Landing from "./pages/Landing";
 
 function App() {
   return (
-    <BrowserRouter>
-      <div className="flex flex-col h-screen w-full">
+    <>
+      <Router>
         <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route element={<Navbar />}>
-            <Route path="/" element={<Projects />} />
-          </Route>
+          <Route path="/" element={<Landing />} />
+          {/* <Route element={<Navbar />}>
+            <Route path="/projects" element={<Projects />} />
+          </Route> */}
         </Routes>
-      </div>
-    </BrowserRouter>
+      </Router>
+    </>
   );
 }
 
