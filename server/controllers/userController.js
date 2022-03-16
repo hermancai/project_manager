@@ -64,20 +64,6 @@ const loginUser = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("Invalid credentials");
   }
-
-  res.status(200).json({ message: "login" });
-});
-
-// @desc    Get user data
-// @route   GET /api/users/data
-// @access  Private
-const getUserData = asyncHandler(async (req, res) => {
-  const { _id, username } = await User.findById(req.user.id);
-
-  res.status(200).json({
-    id: _id,
-    username: username,
-  });
 });
 
 // @desc    Generate JWT
@@ -85,4 +71,4 @@ const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "7d" });
 };
 
-module.exports = { registerUser, loginUser, getUserData };
+module.exports = { registerUser, loginUser };
