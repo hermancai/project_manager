@@ -1,20 +1,37 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { register, reset } from "../../features/auth/authSlice";
+import Spinner from "../Spinner";
 
 function Signup({ setError }) {
-  const [inputs, setInputs] = useState({});
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
+  const { user, isLoading, isError, isSuccess, message } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (isError) toast.error(message);
+
+    if (isSuccess || user) navigate("/projects");
+
+    dispatch(reset());
+  }, [user, isError, isSuccess, message, navigate, dispatch]);
+
+  const [inputs, setInputs] = useState({});
   const handleChange = (e) => {
     setInputs((values) => ({ ...values, [e.target.name]: e.target.value }));
   };
 
   const validateInput = () => {
     if (!inputs.username || !inputs.password) {
-      setError("Missing credentials");
+      toast.error("Missing username/password");
       return false;
     }
 
     if (inputs.password !== inputs.repeatPassword) {
-      setError("Passwords do not match");
+      toast.error("Passwords do not match");
       return false;
     }
 
@@ -26,8 +43,15 @@ function Signup({ setError }) {
 
     if (!validateInput()) return;
 
-    // TODO: connect to server
+    dispatch(
+      register({
+        username: inputs.username,
+        password: inputs.password,
+      })
+    );
   };
+
+  if (isLoading) return <Spinner />;
 
   return (
     <form onSubmit={attemptSignup} className="flex flex-col justify-center items-center gap-7 px-5 py-7">
