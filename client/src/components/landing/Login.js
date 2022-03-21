@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { login, reset } from "../../features/auth/authSlice";
+import { login, resetUser } from "../../features/auth/authSlice";
 import Spinner from "../Spinner";
 
-function Login({ setError }) {
+function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -16,7 +16,7 @@ function Login({ setError }) {
 
     if (isSuccess || user) navigate("/projects");
 
-    dispatch(reset());
+    dispatch(resetUser());
   }, [user, isError, isSuccess, message, navigate, dispatch]);
 
   const [inputs, setInputs] = useState({});
@@ -26,7 +26,6 @@ function Login({ setError }) {
 
   const validateInput = () => {
     if (!inputs.username || !inputs.password) {
-      // setError("Missing credentials");
       toast.error("Missing username/password");
       return false;
     }
@@ -39,7 +38,6 @@ function Login({ setError }) {
 
     if (!validateInput()) return;
 
-    // TODO: connect to server
     dispatch(
       login({
         username: inputs.username,
@@ -70,7 +68,7 @@ function Login({ setError }) {
         onChange={handleChange}
       />
 
-      <button type="submit" className="customButton customGradient w-full">
+      <button type="submit" className="customButton w-full">
         LOGIN
       </button>
     </form>

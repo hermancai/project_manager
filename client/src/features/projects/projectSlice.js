@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import projectService from "./projectService";
 
 const initialState = {
-  goals: [],
+  projects: [],
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -33,7 +33,7 @@ export const projectSlice = createSlice({
   name: "project",
   initialState,
   reducers: {
-    reset: (state) => initialState,
+    resetProjects: (state) => initialState,
   },
   extraReducers: (builder) => {
     builder
@@ -43,7 +43,7 @@ export const projectSlice = createSlice({
       .addCase(createProject.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.goals.push(action.payload);
+        state.projects.push(action.payload);
       })
       .addCase(createProject.rejected, (state, action) => {
         state.isLoading = false;
@@ -56,7 +56,7 @@ export const projectSlice = createSlice({
       .addCase(getProjects.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.goals = action.payload;
+        state.projects = action.payload;
       })
       .addCase(getProjects.rejected, (state, action) => {
         state.isLoading = false;
@@ -66,5 +66,5 @@ export const projectSlice = createSlice({
   },
 });
 
-export const { reset } = projectSlice.actions;
+export const { resetProjects } = projectSlice.actions;
 export default projectSlice.reducer;

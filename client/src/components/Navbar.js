@@ -1,7 +1,8 @@
 import { Fragment, useEffect } from "react";
 import { useNavigate, Outlet, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { logout, reset } from "../features/auth/authSlice";
+import { logout, resetUser } from "../features/auth/authSlice";
+import { resetProjects } from "../features/projects/projectSlice";
 import { Menu, Transition } from "@headlessui/react";
 import { MenuIcon } from "@heroicons/react/outline";
 
@@ -19,7 +20,8 @@ function Navbar() {
 
   const handleLogout = () => {
     dispatch(logout());
-    dispatch(reset());
+    dispatch(resetUser());
+    dispatch(resetProjects());
     navigate("/");
   };
 

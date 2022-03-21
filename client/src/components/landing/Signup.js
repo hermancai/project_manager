@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { register, reset } from "../../features/auth/authSlice";
+import { register, resetUser } from "../../features/auth/authSlice";
 import Spinner from "../Spinner";
 
-function Signup({ setError }) {
+function Signup() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -16,7 +16,7 @@ function Signup({ setError }) {
 
     if (isSuccess || user) navigate("/projects");
 
-    dispatch(reset());
+    dispatch(resetUser());
   }, [user, isError, isSuccess, message, navigate, dispatch]);
 
   const [inputs, setInputs] = useState({});
@@ -82,7 +82,7 @@ function Signup({ setError }) {
         onChange={handleChange}
       />
 
-      <button type="submit" className="customButton customGradient w-full">
+      <button type="submit" className="customButton w-full">
         SIGN UP
       </button>
     </form>
