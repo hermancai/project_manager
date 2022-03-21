@@ -3,12 +3,8 @@
 @tailwind utilities;
 
 @layer components {
-  .customGradient {
-    @apply bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900;
-  }
-
   .customButton {
-    @apply text-white rounded p-3 cursor-pointer text-center;
+    @apply flex flex-row justify-center items-center gap-2 p-3 text-white bg-slate-900 rounded cursor-pointer;
   }
 
   .grayInput {

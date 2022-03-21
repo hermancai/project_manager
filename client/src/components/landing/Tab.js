@@ -1,6 +1,5 @@
-function Tab({ text, active, setSelf, setOther, setError }) {
+function Tab({ text, active, setSelf, setOther }) {
   const toggle = () => {
-    setError(null);
     setSelf(true);
     setOther(false);
   };
