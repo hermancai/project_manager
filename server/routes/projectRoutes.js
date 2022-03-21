@@ -1,9 +1,8 @@
 const router = require("express").Router();
 const { verifyUser } = require("../middleware/verifyMiddleware");
 
-const { getProjects, createProject, updateProject, deleteProject } = require("../controllers/projectController");
+const { getData } = require("../controllers/projectController");
 
-router.route("/").get(verifyUser, getProjects).post(verifyUser, createProject);
-router.route("/:id").put(verifyUser, updateProject).delete(verifyUser, deleteProject);
+router.route("/").post(verifyUser, getData);
 
 module.exports = router;
