@@ -38,7 +38,19 @@ const addTask = asyncHandler(async (req, res) => {
   res.status(200).json(task);
 });
 
+// @desc    Delete task from project
+// @route   POST /api/project/deleteTask
+// @access  Private
+const deleteTask = asyncHandler(async (req, res) => {
+  const { projectId, taskId } = req.body;
+  const task = await Task.findByIdAndDelete(taskId);
+  await Project.findByIdAndUpdate(projectId, { $inc: { taskCount: -1 } });
+
+  res.status(200).json(task);
+});
+
 module.exports = {
   getData,
   addTask,
+  deleteTask,
 };
