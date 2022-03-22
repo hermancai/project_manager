@@ -18,9 +18,9 @@ function ProjectCard({ data }) {
       </div>
 
       <p className="p-3 grow max-h-[200px] overflow-auto">
-        Description:
+        <span className="italic">Description:</span>
         <br />
-        {data.description ?? "None"}
+        {data.description ?? <span className="text-gray-600 italic">N/A</span>}
       </p>
       <p className="p-3 bg-slate-200">Tasks: {data.taskCount}</p>
       <p className="p-3">Bugs: {data.bugCount}</p>

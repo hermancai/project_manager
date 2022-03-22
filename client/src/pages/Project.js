@@ -28,21 +28,24 @@ function Project() {
   return (
     <div className="flex w-full justify-center">
       <div className="flex flex-col w-[90%] py-8 gap-6 text-slate-900">
+        <div className="customButton w-min" onClick={goBack}>
+          <ArrowNarrowLeftIcon className="h-5" />
+          Back
+        </div>
         {isLoading ? (
           <Spinner />
         ) : (
-          <>
-            <div className="customButton w-min" onClick={goBack}>
-              <ArrowNarrowLeftIcon className="h-5" />
-              Back
-            </div>
-            <h1 className="text-3xl underline">{project.name}</h1>
+          <div className="flex flex-col divide-y gap-6">
             <div className="whitespace-pre-wrap">
-              <p className="italic">Description:</p>
-              <p>{project.description ?? "None"}</p>
+              <h1 className="text-3xl underline mb-3">{project.name}</h1>
+              <p>
+                <span className="italic">Description:</span>
+                <br />
+                {project.description ?? <span className="text-gray-600 italic">N/A</span>}
+              </p>
             </div>
             <TaskTable />
-          </>
+          </div>
         )}
       </div>
     </div>
