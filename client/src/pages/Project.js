@@ -4,25 +4,24 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { ArrowNarrowLeftIcon } from "@heroicons/react/solid";
 import { getProject, resetProject } from "../features/currentProject/currentProjectSlice";
 import Spinner from "../components/Spinner";
+import TaskTable from "../components/tasks/TaskTable";
 
 function Project() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
-  const projectId = location.pathname.split("/")[2];
+
   const { project, isLoading } = useSelector((state) => state.currentProject);
 
   useEffect(() => {
-    if (!project) return navigate("/projects");
+    dispatch(getProject({ id: location.pathname.split("/")[2] }));
 
-    dispatch(getProject({ id: projectId }));
-
-    // TODO: spinner. get bugs and tasks from DB. Build bug and task tables
-    // TODO: options to delete and edit project
-  }, []);
+    return () => {
+      dispatch(resetProject());
+    };
+  }, [location.pathname, dispatch, navigate]);
 
   const goBack = () => {
-    dispatch(resetProject());
     navigate("/projects");
   };
 
@@ -42,6 +41,7 @@ function Project() {
               <p className="italic">Description:</p>
               <p>{project.description ?? "None"}</p>
             </div>
+            <TaskTable />
           </>
         )}
       </div>

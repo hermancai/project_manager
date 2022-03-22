@@ -14,6 +14,14 @@ const projectSchema = mongoose.Schema(
     description: {
       type: String,
     },
+    taskCount: {
+      type: Number,
+      default: 0,
+    },
+    bugCount: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 );
