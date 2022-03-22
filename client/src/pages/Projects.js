@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getProjects, resetProjects } from "../features/projects/projectSlice";
+import { setActiveForm } from "../features/modal/modalSlice";
 import { PlusIcon, PencilIcon } from "@heroicons/react/solid";
-import AddProjectModal from "../components/AddProjectModal";
 import ProjectCard from "../components/ProjectCard";
 import Spinner from "../components/Spinner";
 
@@ -13,8 +13,6 @@ function Projects() {
 
   const { user } = useSelector((state) => state.auth);
   const { projects, isLoading, isError, message } = useSelector((state) => state.projects);
-
-  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     if (isError) {
@@ -38,7 +36,7 @@ function Projects() {
         <div className="flex flex-col w-[90%] py-8 gap-6">
           <div className="flex flex-row justify-between items-center">
             <h1 className="text-4xl sm:text-5xl text-slate-900">Projects</h1>
-            <div className="customButton" onClick={() => setShowModal(true)}>
+            <div className="customButton" onClick={() => dispatch(setActiveForm("addProject"))}>
               <PlusIcon className="h-5" />
               New Project
             </div>
@@ -62,7 +60,6 @@ function Projects() {
           )}
         </div>
       </div>
-      <AddProjectModal showModal={showModal} setShowModal={setShowModal} />
     </>
   );
 }

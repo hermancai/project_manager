@@ -1,10 +1,28 @@
 import { Fragment } from "react";
+import { useSelector } from "react-redux";
 import { Dialog, Transition } from "@headlessui/react";
-import AddTaskForm from "./AddTaskForm";
+import AddProjectForm from "./AddProjectForm";
+import AddTaskForm from "./tasks/AddTaskForm";
+import DeleteTaskForm from "./tasks/DeleteTaskForm";
 
-function AddTaskModal({ showModal, setShowModal }) {
+function Modal() {
+  const { isOpen, activeForm } = useSelector((state) => state.modal);
+
+  const chooseForm = () => {
+    switch (activeForm) {
+      case "addProject":
+        return <AddProjectForm />;
+      case "addTask":
+        return <AddTaskForm />;
+      case "deleteTask":
+        return <DeleteTaskForm />;
+      default:
+        return null;
+    }
+  };
+
   return (
-    <Transition appear show={showModal} as={Fragment}>
+    <Transition appear show={isOpen} as={Fragment}>
       <Dialog as="div" className="fixed inset-0 z-10 overflow-y-auto" onClose={() => null}>
         <div className="min-h-screen px-4 text-center bg-slate-500/50">
           <Transition.Child
@@ -31,7 +49,7 @@ function AddTaskModal({ showModal, setShowModal }) {
             leaveTo="opacity-0 scale-95"
           >
             <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded">
-              <AddTaskForm setShowModal={setShowModal} />
+              {chooseForm()}
             </div>
           </Transition.Child>
         </div>
@@ -40,4 +58,4 @@ function AddTaskModal({ showModal, setShowModal }) {
   );
 }
 
-export default AddTaskModal;
+export default Modal;

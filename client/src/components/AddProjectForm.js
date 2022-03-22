@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createProject } from "../features/projects/projectSlice";
+import { resetModal } from "../features/modal/modalSlice";
 
-function AddProjectForm({ setShowModal }) {
+function AddProjectForm() {
   const dispatch = useDispatch();
   const [inputs, setInputs] = useState({});
   const [error, setError] = useState("");
@@ -17,7 +18,7 @@ function AddProjectForm({ setShowModal }) {
     if (!inputs.name) return setError("A project name is required.");
 
     dispatch(createProject({ name: inputs.name, description: inputs.description }));
-    setShowModal(false);
+    dispatch(resetModal());
   };
 
   return (
@@ -45,7 +46,7 @@ function AddProjectForm({ setShowModal }) {
         <button
           type="button"
           className="rounded basis-1/2 px-10 py-2 bg-red-300 hover:bg-red-400"
-          onClick={() => setShowModal(false)}
+          onClick={() => dispatch(resetModal())}
         >
           Cancel
         </button>

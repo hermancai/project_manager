@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import Landing from "./pages/Landing";
 import Projects from "./pages/Projects";
 import Project from "./pages/Project";
+import Modal from "./components/Modal";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         </Routes>
       </BrowserRouter>
       <ToastContainer />
+      <Modal />
     </>
   );
 }

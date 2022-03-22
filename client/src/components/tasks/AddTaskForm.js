@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTask } from "../../features/currentProject/currentProjectSlice";
+import { resetModal } from "../../features/modal/modalSlice";
 
-function AddTaskForm({ setShowModal }) {
+function AddTaskForm() {
   const dispatch = useDispatch();
   const projectId = useSelector((state) => state.currentProject.project._id);
   const [inputs, setInputs] = useState({});
@@ -18,7 +19,7 @@ function AddTaskForm({ setShowModal }) {
     if (!inputs.description) return setError("Task description is required.");
 
     dispatch(addTask({ project: projectId, description: inputs.description }));
-    setShowModal(false);
+    dispatch(resetModal());
   };
 
   return (
@@ -38,7 +39,7 @@ function AddTaskForm({ setShowModal }) {
         <button
           type="button"
           className="rounded basis-1/2 px-10 py-2 bg-red-300 hover:bg-red-400"
-          onClick={() => setShowModal(false)}
+          onClick={() => dispatch(resetModal())}
         >
           Cancel
         </button>

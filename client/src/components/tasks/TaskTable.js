@@ -1,13 +1,13 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useTable, useSortBy } from "react-table";
-import { useSelector } from "react-redux";
-import { CheckIcon, XIcon, ChevronDownIcon, ChevronUpIcon, PlusIcon } from "@heroicons/react/solid";
+import { useSelector, useDispatch } from "react-redux";
+import { ChevronDownIcon, ChevronUpIcon, PlusIcon, CheckCircleIcon, XCircleIcon } from "@heroicons/react/solid";
 import dateFormat from "dateformat";
+import { setActiveForm } from "../../features/modal/modalSlice";
 import TaskOptions from "./TaskOptions";
-import AddTaskModal from "./AddTaskModal";
 
 function TaskTable() {
-  const [showAddTaskModal, setShowAddTaskModal] = useState(false);
+  const dispatch = useDispatch();
   const data = useSelector((state) => state.currentProject.tasks);
 
   const columns = useMemo(
@@ -15,34 +15,23 @@ function TaskTable() {
       {
         accessor: "optionsCol",
         disableSortBy: true,
-        Cell: (tableProps) => <TaskOptions tableProps={tableProps} />,
+        Cell: (tableProps) => <TaskOptions data={tableProps.row.original} />,
       },
       {
-        Header: <div className="text-left">Description</div>,
+        Header: "Description",
         accessor: "description",
         sortType: "alphanumeric",
         Cell: ({ value }) => <div className={`whitespace-pre-wrap ${value ? "min-w-[200px]" : null}`}>{value}</div>,
       },
       {
-        Header: <div className="text-center">Completed</div>,
+        Header: "Completed",
         accessor: "completed",
         sortType: "basic",
-        Cell: ({ value }) => (
-          <div className="flex items-center">
-            {value ? (
-              <div className="rounded-full p-2 bg-green-300">
-                <CheckIcon className="h-5" />
-              </div>
-            ) : (
-              <div className="rounded-full p-2 bg-red-300">
-                <XIcon className="h-5" />
-              </div>
-            )}
-          </div>
-        ),
+        Cell: ({ value }) =>
+          value ? <CheckCircleIcon className="h-10 text-green-400" /> : <XCircleIcon className="h-10 text-red-400" />,
       },
       {
-        Header: <div className="text-left">Date Added</div>,
+        Header: "Date Added",
         id: "createdAt",
         accessor: (row) => new Date(row.createdAt),
         sortType: "datetime",
@@ -61,10 +50,10 @@ function TaskTable() {
 
   return (
     <>
-      <div className="flex flex-col gap-3 pt-5">
+      <div className="flex flex-col gap-3 pt-3">
         <div className="flex justify-between items-end">
           <h1 className="text-3xl">Tasks</h1>
-          <div className="customButton" onClick={() => setShowAddTaskModal(true)}>
+          <div className="customButton" onClick={() => dispatch(setActiveForm("addTask"))}>
             <PlusIcon className="h-5" />
             New Task
           </div>
@@ -118,7 +107,6 @@ function TaskTable() {
           </div>
         )}
       </div>
-      <AddTaskModal showModal={showAddTaskModal} setShowModal={setShowAddTaskModal} />
     </>
   );
 }
