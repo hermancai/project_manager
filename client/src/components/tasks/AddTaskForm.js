@@ -6,11 +6,16 @@ import { resetModal } from "../../features/modal/modalSlice";
 function AddTaskForm() {
   const dispatch = useDispatch();
   const projectId = useSelector((state) => state.currentProject.project._id);
-  const [inputs, setInputs] = useState({});
+
+  const [inputs, setInputs] = useState({
+    description: "",
+    completed: false,
+  });
   const [error, setError] = useState("");
 
   const handleChange = (e) => {
-    setInputs((values) => ({ ...values, [e.target.name]: e.target.value }));
+    const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
+    setInputs((values) => ({ ...values, [e.target.name]: value }));
   };
 
   const handleSubmit = (e) => e.preventDefault();
@@ -18,7 +23,7 @@ function AddTaskForm() {
   const handleSave = () => {
     if (!inputs.description) return setError("Task description is required.");
 
-    dispatch(addTask({ project: projectId, description: inputs.description }));
+    dispatch(addTask({ project: projectId, description: inputs.description, completed: inputs.completed }));
     dispatch(resetModal());
   };
 
@@ -34,6 +39,16 @@ function AddTaskForm() {
         value={inputs.description || ""}
         onChange={handleChange}
       />
+      <label className="flex items-center gap-3 cursor-pointer">
+        <input
+          className="h-5 w-5"
+          type="checkbox"
+          name="completed"
+          checked={inputs.completed}
+          onChange={handleChange}
+        />
+        Task is complete
+      </label>
       {error && <p className="text-red-500 text-center">{error}</p>}
       <div className="flex flex-row justify-evenly mt-6 gap-10">
         <button

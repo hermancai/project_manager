@@ -22,10 +22,11 @@ const getData = asyncHandler(async (req, res) => {
 // @route   POST /api/project/addTask
 // @access  Private
 const addTask = asyncHandler(async (req, res) => {
-  const { project, description } = req.body;
+  const { project, description, completed } = req.body;
   const task = await Task.create({
     project: project,
     description: description,
+    completed: completed,
   });
 
   if (!task) {
