@@ -38,10 +38,23 @@ const deleteTask = async (id, token) => {
   return response.data;
 };
 
+const editTask = async (data, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.post(API_URL + "/editTask", data, config);
+  console.log(response.data);
+  return response.data;
+};
+
 const currentProjectService = {
   getData,
   addTask,
   deleteTask,
+  editTask,
 };
 
 export default currentProjectService;

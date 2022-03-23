@@ -41,6 +41,16 @@ export const deleteTask = createAsyncThunk("project/deleteTask", async (id, thun
   }
 });
 
+export const editTask = createAsyncThunk("project/editTask", async (data, thunkAPI) => {
+  try {
+    const token = thunkAPI.getState().auth.user.token;
+    return await currentProjectService.editTask(data, token);
+  } catch (err) {
+    const message = (err.response && err.response.data && err.response.data.message) || err.message || err.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
 export const currentProjectSlice = createSlice({
   name: "currentProject",
   initialState,
@@ -77,6 +87,16 @@ export const currentProjectSlice = createSlice({
         state.tasks = state.tasks.filter((item) => item._id !== action.payload._id);
       })
       .addCase(deleteTask.rejected, (state, action) => {
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(editTask.fulfilled, (state, action) => {
+        state.isSuccess = true;
+        const taskToUpdate = state.tasks.find((e) => e._id === action.payload._id);
+        taskToUpdate.description = action.payload.description;
+        taskToUpdate.completed = action.payload.completed;
+      })
+      .addCase(editTask.rejected, (state, action) => {
         state.isError = true;
         state.message = action.payload;
       });

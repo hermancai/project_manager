@@ -4,6 +4,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import AddProjectForm from "./AddProjectForm";
 import AddTaskForm from "./tasks/AddTaskForm";
 import DeleteTaskForm from "./tasks/DeleteTaskForm";
+import EditTaskForm from "./tasks/EditTaskForm";
 
 function Modal() {
   const { isOpen, activeForm } = useSelector((state) => state.modal);
@@ -16,6 +17,8 @@ function Modal() {
         return <AddTaskForm />;
       case "deleteTask":
         return <DeleteTaskForm />;
+      case "editTask":
+        return <EditTaskForm />;
       default:
         return null;
     }

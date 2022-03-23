@@ -50,8 +50,28 @@ const deleteTask = asyncHandler(async (req, res) => {
   res.status(200).json(task);
 });
 
+// @desc    Edit task in project
+// @route   POST /api/project/editTask
+// @access  Private
+const editTask = asyncHandler(async (req, res) => {
+  const { projectId, taskId, description, completed } = req.body;
+  const task = await Task.findByIdAndUpdate(
+    taskId,
+    { description: description, completed: completed },
+    { returnDocument: "after" }
+  );
+
+  if (!task) {
+    res.status(400);
+    throw new Error("Error while updating task");
+  }
+
+  res.status(200).json(task);
+});
+
 module.exports = {
   getData,
   addTask,
   deleteTask,
+  editTask,
 };
