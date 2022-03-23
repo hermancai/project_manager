@@ -31,6 +31,16 @@ export const addTask = createAsyncThunk("project/addTask", async (data, thunkAPI
   }
 });
 
+export const editProject = createAsyncThunk("project/edit", async (data, thunkAPI) => {
+  try {
+    const token = thunkAPI.getState().auth.user.token;
+    return await currentProjectService.editProject(data, token);
+  } catch (err) {
+    const message = (err.response && err.response.data && err.response.data.message) || err.message || err.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
 export const deleteTask = createAsyncThunk("project/deleteTask", async (id, thunkAPI) => {
   try {
     const token = thunkAPI.getState().auth.user.token;
@@ -68,6 +78,15 @@ export const currentProjectSlice = createSlice({
         state.project = action.payload.project;
         state.tasks = action.payload.tasks;
         state.bugs = action.payload.bugs;
+      })
+      .addCase(editProject.rejected, (state, action) => {
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(editProject.fulfilled, (state, action) => {
+        state.isSuccess = true;
+        state.project.name = action.payload.name;
+        state.project.description = action.payload.description;
       })
       .addCase(getProject.rejected, (state, action) => {
         state.isLoading = false;

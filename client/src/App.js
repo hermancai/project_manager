@@ -18,9 +18,9 @@ function App() {
             <Route path="/project/:id" element={<Project />} />
           </Route>
         </Routes>
+        <Modal />
       </BrowserRouter>
       <ToastContainer />
-      <Modal />
     </>
   );
 }

@@ -29,6 +29,16 @@ export const getProjects = createAsyncThunk("projects/getAll", async (_, thunkAP
   }
 });
 
+export const deleteProject = createAsyncThunk("projects/delete", async (projectId, thunkAPI) => {
+  try {
+    const token = thunkAPI.getState().auth.user.token;
+    return await projectService.deleteProject(projectId, token);
+  } catch (err) {
+    const message = (err.response && err.response.data && err.response.data.message) || err.message || err.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
 export const projectSlice = createSlice({
   name: "project",
   initialState,
@@ -37,16 +47,19 @@ export const projectSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(createProject.pending, (state) => {
-        state.isLoading = true;
-      })
       .addCase(createProject.fulfilled, (state, action) => {
-        state.isLoading = false;
         state.isSuccess = true;
         state.projects.push(action.payload);
       })
       .addCase(createProject.rejected, (state, action) => {
-        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(deleteProject.fulfilled, (state, action) => {
+        state.isSuccess = true;
+        state.projects = state.projects.filter((item) => item._id !== action.payload._id);
+      })
+      .addCase(deleteProject.rejected, (state, action) => {
         state.isError = true;
         state.message = action.payload;
       })

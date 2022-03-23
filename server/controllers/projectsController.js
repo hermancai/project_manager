@@ -1,5 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const Project = require("../models/projectModel");
+const Task = require("../models/taskModel");
+const Bug = require("../models/bugModel");
 
 // @desc    Get projects
 // @route   GET /api/projects
@@ -28,37 +30,12 @@ const createProject = asyncHandler(async (req, res) => {
   res.status(200).json(project);
 });
 
-// @desc    Update project
-// @route   PUT /api/projects/:id
-// @access  Private
-const updateProject = asyncHandler(async (req, res) => {
-  const project = await Project.findById(req.params.id);
-
-  if (!project) {
-    res.status(400);
-    throw new Error("Project not found");
-  }
-
-  if (!req.user) {
-    res.status(401);
-    throw new Error("User not found");
-  }
-
-  if (project.user.toString() !== req.user.id) {
-    res.status(401);
-    throw new Error("User not authorized");
-  }
-
-  const updatedProject = await Project.findByIdAndUpdate(req.params.id, req.body, { new: true });
-
-  res.status(200).json(updatedProject);
-});
-
 // @desc    Delete project
 // @route   DELETE /api/projects/:id
 // @access  Private
 const deleteProject = asyncHandler(async (req, res) => {
-  const project = await Project.findById(req.params.id);
+  const projectId = req.params.id;
+  const project = await Project.findById(projectId);
 
   if (!project) {
     res.status(400);
@@ -76,6 +53,8 @@ const deleteProject = asyncHandler(async (req, res) => {
   }
 
   await project.remove();
+  await Task.deleteMany({ project: projectId });
+  await Bug.deleteMany({ project: projectId });
 
   res.status(200).json(project);
 });
@@ -83,6 +62,5 @@ const deleteProject = asyncHandler(async (req, res) => {
 module.exports = {
   getProjects,
   createProject,
-  updateProject,
   deleteProject,
 };

@@ -2,6 +2,8 @@ import { Fragment } from "react";
 import { useSelector } from "react-redux";
 import { Dialog, Transition } from "@headlessui/react";
 import AddProjectForm from "./AddProjectForm";
+import DeleteProjectForm from "./DeleteProjectForm";
+import EditProjectForm from "./EditProjectForm";
 import AddTaskForm from "./tasks/AddTaskForm";
 import DeleteTaskForm from "./tasks/DeleteTaskForm";
 import EditTaskForm from "./tasks/EditTaskForm";
@@ -13,6 +15,10 @@ function Modal() {
     switch (activeForm) {
       case "addProject":
         return <AddProjectForm />;
+      case "deleteProject":
+        return <DeleteProjectForm />;
+      case "editProject":
+        return <EditProjectForm />;
       case "addTask":
         return <AddTaskForm />;
       case "deleteTask":

@@ -11,7 +11,7 @@ function ProjectCard({ data }) {
   return (
     <div className="flex flex-col border border-slate-900 rounded w-full whitespace-pre-wrap">
       <div className="flex items-center justify-between text-white bg-slate-900 p-3">
-        <h3 className="font-bold">{data.name}</h3>
+        <h3 className="font-bold break-words max-w-[80%]">{data.name}</h3>
         <div className="p-3 hover:bg-slate-700 rounded-full cursor-pointer" onClick={goToProject}>
           <PencilIcon className="h-5" />
         </div>

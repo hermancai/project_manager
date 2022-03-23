@@ -14,6 +14,18 @@ const getData = async (id, token) => {
   return response.data;
 };
 
+const editProject = async (data, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.put(`${API_URL}/${data.id}`, data, config);
+  console.log(response.data);
+  return response.data;
+};
+
 const addTask = async (data, token) => {
   const config = {
     headers: {
@@ -52,6 +64,7 @@ const editTask = async (data, token) => {
 
 const currentProjectService = {
   getData,
+  editProject,
   addTask,
   deleteTask,
   editTask,
