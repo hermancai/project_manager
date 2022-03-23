@@ -1,7 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const Project = require("../models/projectModel");
 const Task = require("../models/taskModel");
-const Bug = require("../models/bugModel");
 
 // @desc    Get data for one project
 // @route   POST /api/project
@@ -9,12 +8,10 @@ const Bug = require("../models/bugModel");
 const getData = asyncHandler(async (req, res) => {
   const project = await Project.findById(req.body.id);
   const tasks = await Task.find({ project: req.body.id });
-  const bugs = await Bug.find({ project: req.body.id });
 
   res.status(200).json({
     project: project,
     tasks: tasks,
-    bugs: bugs,
   });
 });
 
@@ -64,11 +61,12 @@ const editProject = asyncHandler(async (req, res) => {
 // @route   POST /api/project/addTask
 // @access  Private
 const addTask = asyncHandler(async (req, res) => {
-  const { project, description, completed } = req.body;
+  const { project, description, completed, priority } = req.body;
   const task = await Task.create({
     project: project,
     description: description,
     completed: completed,
+    priority: priority,
   });
 
   if (!task) {
@@ -96,10 +94,10 @@ const deleteTask = asyncHandler(async (req, res) => {
 // @route   POST /api/project/editTask
 // @access  Private
 const editTask = asyncHandler(async (req, res) => {
-  const { projectId, taskId, description, completed } = req.body;
+  const { projectId, taskId, description, completed, priority } = req.body;
   const task = await Task.findByIdAndUpdate(
     taskId,
-    { description: description, completed: completed },
+    { description: description, completed: completed, priority: priority },
     { returnDocument: "after" }
   );
 

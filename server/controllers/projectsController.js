@@ -1,7 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const Project = require("../models/projectModel");
 const Task = require("../models/taskModel");
-const Bug = require("../models/bugModel");
 
 // @desc    Get projects
 // @route   GET /api/projects

@@ -15,6 +15,10 @@ const taskSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    priority: {
+      type: Number,
+      default: 3,
+    },
   },
   { timestamps: true }
 );

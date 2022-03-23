@@ -10,6 +10,7 @@ function AddTaskForm() {
   const [inputs, setInputs] = useState({
     description: "",
     completed: false,
+    priority: "3",
   });
   const [error, setError] = useState("");
 
@@ -23,7 +24,14 @@ function AddTaskForm() {
   const handleSave = () => {
     if (!inputs.description) return setError("Task description is required.");
 
-    dispatch(addTask({ project: projectId, description: inputs.description, completed: inputs.completed }));
+    dispatch(
+      addTask({
+        project: projectId,
+        description: inputs.description,
+        completed: inputs.completed,
+        priority: parseInt(inputs.priority),
+      })
+    );
     dispatch(resetModal());
   };
 
@@ -39,6 +47,21 @@ function AddTaskForm() {
         value={inputs.description || ""}
         onChange={handleChange}
       />
+      <label>
+        Priority:
+        <select
+          name="priority"
+          value={inputs.priority}
+          onChange={handleChange}
+          className="mx-3 border border-slate-900 rounded-sm bg-white p-1 min-w-[100px]"
+        >
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+      </label>
       <label className="flex items-center gap-3 cursor-pointer">
         <input
           className="h-5 w-5"

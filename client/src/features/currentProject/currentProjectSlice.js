@@ -4,7 +4,6 @@ import currentProjectService from "./currentProjectService";
 const initialState = {
   project: {},
   tasks: [],
-  bugs: [],
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -21,20 +20,20 @@ export const getProject = createAsyncThunk("project/getData", async (projectId, 
   }
 });
 
-export const addTask = createAsyncThunk("project/addTask", async (data, thunkAPI) => {
+export const editProject = createAsyncThunk("project/edit", async (data, thunkAPI) => {
   try {
     const token = thunkAPI.getState().auth.user.token;
-    return await currentProjectService.addTask(data, token);
+    return await currentProjectService.editProject(data, token);
   } catch (err) {
     const message = (err.response && err.response.data && err.response.data.message) || err.message || err.toString();
     return thunkAPI.rejectWithValue(message);
   }
 });
 
-export const editProject = createAsyncThunk("project/edit", async (data, thunkAPI) => {
+export const addTask = createAsyncThunk("project/addTask", async (data, thunkAPI) => {
   try {
     const token = thunkAPI.getState().auth.user.token;
-    return await currentProjectService.editProject(data, token);
+    return await currentProjectService.addTask(data, token);
   } catch (err) {
     const message = (err.response && err.response.data && err.response.data.message) || err.message || err.toString();
     return thunkAPI.rejectWithValue(message);
@@ -77,7 +76,6 @@ export const currentProjectSlice = createSlice({
         state.isSuccess = true;
         state.project = action.payload.project;
         state.tasks = action.payload.tasks;
-        state.bugs = action.payload.bugs;
       })
       .addCase(editProject.rejected, (state, action) => {
         state.isError = true;
@@ -114,6 +112,7 @@ export const currentProjectSlice = createSlice({
         const taskToUpdate = state.tasks.find((e) => e._id === action.payload._id);
         taskToUpdate.description = action.payload.description;
         taskToUpdate.completed = action.payload.completed;
+        taskToUpdate.priority = action.payload.priority;
       })
       .addCase(editTask.rejected, (state, action) => {
         state.isError = true;

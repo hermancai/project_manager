@@ -13,9 +13,11 @@ function TaskTable() {
   const columns = useMemo(
     () => [
       {
-        accessor: "optionsCol",
-        disableSortBy: true,
-        Cell: (tableProps) => <TaskOptions data={tableProps.row.original} />,
+        Header: "Completed",
+        accessor: "completed",
+        sortType: "basic",
+        Cell: ({ value }) =>
+          value ? <CheckCircleIcon className="h-10 text-green-400" /> : <XCircleIcon className="h-10 text-red-400" />,
       },
       {
         Header: "Description",
@@ -24,11 +26,8 @@ function TaskTable() {
         Cell: ({ value }) => <div className={`whitespace-pre-wrap ${value ? "min-w-[200px]" : null}`}>{value}</div>,
       },
       {
-        Header: "Completed",
-        accessor: "completed",
-        sortType: "basic",
-        Cell: ({ value }) =>
-          value ? <CheckCircleIcon className="h-10 text-green-400" /> : <XCircleIcon className="h-10 text-red-400" />,
+        Header: "Priority",
+        accessor: "priority",
       },
       {
         Header: "Date Added",
@@ -37,11 +36,16 @@ function TaskTable() {
         sortType: "datetime",
         Cell: ({ value }) => <p className="min-w-[150px]">{dateFormat(value, "mmmm dS, yyyy, h:MM TT")}</p>,
       },
+      {
+        accessor: "optionsCol",
+        disableSortBy: true,
+        Cell: (tableProps) => <TaskOptions data={tableProps.row.original} />,
+      },
     ],
     []
   );
 
-  const initialSort = useMemo(() => [{ id: "createdAt", desc: true }], []);
+  const initialSort = useMemo(() => [{ id: "completed", desc: false }], []);
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
     { columns, data, initialState: { sortBy: initialSort } },
@@ -50,7 +54,7 @@ function TaskTable() {
 
   return (
     <>
-      <div className="flex flex-col gap-3 pt-3">
+      <div className="flex flex-col gap-3 pt-6">
         <div className="flex justify-between items-end">
           <h1 className="text-3xl">Tasks</h1>
           <div className="customButton" onClick={() => dispatch(setActiveForm("addTask"))}>
@@ -67,7 +71,10 @@ function TaskTable() {
                 {headerGroups.map((headerGroup) => (
                   <tr {...headerGroup.getHeaderGroupProps()}>
                     {headerGroup.headers.map((column) => (
-                      <th {...column.getHeaderProps(column.getSortByToggleProps())} className="p-4">
+                      <th
+                        {...column.getHeaderProps(column.getSortByToggleProps({ title: "Sort column" }))}
+                        className="p-4"
+                      >
                         <div className="flex gap-2">
                           {column.render("Header")}
                           <span className="flex items-end">
