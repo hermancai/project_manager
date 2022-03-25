@@ -21,7 +21,7 @@ const editProject = async (data, token) => {
     },
   };
 
-  const response = await axios.put(`${API_URL}/${data.id}`, data, config);
+  const response = await axios.put(API_URL, data, config);
   console.log(response.data);
   return response.data;
 };
@@ -33,19 +33,20 @@ const addTask = async (data, token) => {
     },
   };
 
-  const response = await axios.post(API_URL + "/addTask", data, config);
+  const response = await axios.post(API_URL + "/task", data, config);
   console.log(response.data);
   return response.data;
 };
 
-const deleteTask = async (id, token) => {
+const deleteTask = async (data, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
+    data: data,
   };
 
-  const response = await axios.post(API_URL + "/deleteTask", id, config);
+  const response = await axios.delete(API_URL + "/task", config);
   console.log(response.data);
   return response.data;
 };
@@ -57,7 +58,7 @@ const editTask = async (data, token) => {
     },
   };
 
-  const response = await axios.post(API_URL + "/editTask", data, config);
+  const response = await axios.put(API_URL + "/task", data, config);
   console.log(response.data);
   return response.data;
 };

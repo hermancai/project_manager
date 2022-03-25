@@ -16,49 +16,28 @@ const getData = asyncHandler(async (req, res) => {
 });
 
 // @desc    Update project
-// @route   PUT /api/project/:id
+// @route   PUT /api/project/
 // @access  Private
 const editProject = asyncHandler(async (req, res) => {
-  const project = await Project.findById(req.params.id);
+  const { id, name, description } = req.body;
+  let project;
+
+  if (description) {
+    project = await Project.findByIdAndUpdate(id, { name: name, description: description }, { new: true });
+  } else {
+    project = await Project.findByIdAndUpdate(id, { name: name, $unset: { description: "" } }, { new: true });
+  }
 
   if (!project) {
     res.status(400);
     throw new Error("Project not found");
   }
 
-  if (!req.user) {
-    res.status(401);
-    throw new Error("User not found");
-  }
-
-  if (project.user.toString() !== req.user.id) {
-    res.status(401);
-    throw new Error("User not authorized");
-  }
-
-  const { name, description } = req.body;
-
-  let updatedProject;
-
-  if (description) {
-    updatedProject = await Project.findByIdAndUpdate(
-      req.params.id,
-      { name: name, description: description },
-      { new: true }
-    );
-  } else {
-    updatedProject = await Project.findByIdAndUpdate(
-      req.params.id,
-      { name: name, $unset: { description: "" } },
-      { new: true }
-    );
-  }
-
-  res.status(200).json(updatedProject);
+  res.status(200).json(project);
 });
 
 // @desc    Add task to project
-// @route   POST /api/project/addTask
+// @route   POST /api/project/task
 // @access  Private
 const addTask = asyncHandler(async (req, res) => {
   const { project, description, completed, priority } = req.body;
@@ -80,7 +59,7 @@ const addTask = asyncHandler(async (req, res) => {
 });
 
 // @desc    Delete task from project
-// @route   POST /api/project/deleteTask
+// @route   DELETE /api/project/task
 // @access  Private
 const deleteTask = asyncHandler(async (req, res) => {
   const { projectId, taskId } = req.body;
@@ -91,7 +70,7 @@ const deleteTask = asyncHandler(async (req, res) => {
 });
 
 // @desc    Edit task in project
-// @route   POST /api/project/editTask
+// @route   PUT /api/project/task
 // @access  Private
 const editTask = asyncHandler(async (req, res) => {
   const { projectId, taskId, description, completed, priority } = req.body;

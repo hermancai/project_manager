@@ -34,24 +34,13 @@ const createProject = asyncHandler(async (req, res) => {
 // @access  Private
 const deleteProject = asyncHandler(async (req, res) => {
   const projectId = req.params.id;
-  const project = await Project.findById(projectId);
+  const project = await Project.findByIdAndDelete(projectId);
 
   if (!project) {
     res.status(400);
     throw new Error("Project not found");
   }
 
-  if (!req.user) {
-    res.status(401);
-    throw new Error("User not found");
-  }
-
-  if (project.user.toString() !== req.user.id) {
-    res.status(401);
-    throw new Error("User not authorized");
-  }
-
-  await project.remove();
   await Task.deleteMany({ project: projectId });
   await Bug.deleteMany({ project: projectId });
 

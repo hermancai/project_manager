@@ -40,10 +40,10 @@ export const addTask = createAsyncThunk("project/addTask", async (data, thunkAPI
   }
 });
 
-export const deleteTask = createAsyncThunk("project/deleteTask", async (id, thunkAPI) => {
+export const deleteTask = createAsyncThunk("project/deleteTask", async (data, thunkAPI) => {
   try {
     const token = thunkAPI.getState().auth.user.token;
-    return await currentProjectService.deleteTask(id, token);
+    return await currentProjectService.deleteTask(data, token);
   } catch (err) {
     const message = (err.response && err.response.data && err.response.data.message) || err.message || err.toString();
     return thunkAPI.rejectWithValue(message);
