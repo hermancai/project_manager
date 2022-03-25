@@ -46,8 +46,6 @@ function Login() {
     );
   };
 
-  if (isLoading) return <Spinner />;
-
   return (
     <form onSubmit={attemptLogin} className="flex flex-col justify-center items-center gap-7 px-5 py-7">
       <input
@@ -69,7 +67,7 @@ function Login() {
       />
 
       <button type="submit" className="customButton w-full">
-        LOGIN
+        {isLoading ? <Spinner small={true} /> : "LOGIN"}
       </button>
     </form>
   );

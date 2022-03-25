@@ -65,7 +65,7 @@ function TaskTable() {
         {data.length === 0 ? (
           <p className="text-slate-900 text-xl pb-5">No tasks found!</p>
         ) : (
-          <div className="w-full overflow-auto border border-slate-900">
+          <div className="w-full overflow-auto border border-slate-900 max-h-[500px]">
             <table {...getTableProps()} className="w-full">
               <thead className="bg-slate-900 text-white">
                 {headerGroups.map((headerGroup) => (

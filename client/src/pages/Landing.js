@@ -15,7 +15,7 @@ function Landing() {
       <div className="flex flex-col justify-center items-center w-full md:w-[50%] min-h-screen text-white gap-4 p-5 text-center">
         <img src="/images/ppm_icon.png" alt="job tracker logo" className="max-h-[280px] mt-auto md:mt-0" />
         <h1 className="text-5xl">Personal Project Manager</h1>
-        <p>Keep track of your tasks and bugs.</p>
+        <p>Keep track of your project tasks.</p>
         <div
           className="flex flex-col justify-center items-center self-center gap-3 mt-auto cursor-pointer md:hidden"
           onClick={scrollToLogin}
