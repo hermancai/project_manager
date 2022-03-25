@@ -44,6 +44,9 @@ export const projectSlice = createSlice({
   initialState,
   reducers: {
     resetProjects: (state) => initialState,
+    clearMessage: (state) => {
+      state.message = "";
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -81,5 +84,5 @@ export const projectSlice = createSlice({
   },
 });
 
-export const { resetProjects } = projectSlice.actions;
+export const { resetProjects, clearMessage } = projectSlice.actions;
 export default projectSlice.reducer;

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { getProjects, resetProjects } from "../features/projects/projectSlice";
+import { getProjects, resetProjects, clearMessage } from "../features/projects/projectSlice";
 import { setActiveForm } from "../features/modal/modalSlice";
 import { PlusIcon, PencilIcon } from "@heroicons/react/solid";
 import ProjectCard from "../components/ProjectCard";
@@ -16,8 +16,11 @@ function Projects() {
   const { projects, isLoading, isError, message } = useSelector((state) => state.projects);
 
   useEffect(() => {
-    if (message) toast.info(message);
-  }, [message]);
+    if (message) {
+      toast.info(message);
+      dispatch(clearMessage());
+    }
+  }, [message, dispatch]);
 
   useEffect(() => {
     if (!user) {

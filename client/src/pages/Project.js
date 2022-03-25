@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ArrowNarrowLeftIcon, PencilIcon } from "@heroicons/react/solid";
-import { getProject, resetProject } from "../features/currentProject/currentProjectSlice";
+import { getProject, resetProject, clearMessage } from "../features/currentProject/currentProjectSlice";
 import { setActiveForm } from "../features/modal/modalSlice";
 import Spinner from "../components/Spinner";
 import TaskTable from "../components/tasks/TaskTable";
@@ -16,8 +16,11 @@ function Project() {
   const { project, isLoading, message } = useSelector((state) => state.currentProject);
 
   useEffect(() => {
-    if (message) toast.info(message);
-  }, [message]);
+    if (message) {
+      toast.info(message);
+      dispatch(clearMessage());
+    }
+  }, [message, dispatch]);
 
   useEffect(() => {
     dispatch(getProject({ id: location.pathname.split("/")[2] }));
