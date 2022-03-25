@@ -85,6 +85,7 @@ export const currentProjectSlice = createSlice({
         state.isSuccess = true;
         state.project.name = action.payload.name;
         state.project.description = action.payload.description;
+        state.message = "Project updated";
       })
       .addCase(getProject.rejected, (state, action) => {
         state.isLoading = false;
@@ -94,6 +95,7 @@ export const currentProjectSlice = createSlice({
       .addCase(addTask.fulfilled, (state, action) => {
         state.isSuccess = true;
         state.tasks.push(action.payload);
+        state.message = "Task added";
       })
       .addCase(addTask.rejected, (state, action) => {
         state.isError = true;
@@ -102,6 +104,7 @@ export const currentProjectSlice = createSlice({
       .addCase(deleteTask.fulfilled, (state, action) => {
         state.isSuccess = true;
         state.tasks = state.tasks.filter((item) => item._id !== action.payload._id);
+        state.message = "Task deleted";
       })
       .addCase(deleteTask.rejected, (state, action) => {
         state.isError = true;
@@ -113,6 +116,7 @@ export const currentProjectSlice = createSlice({
         taskToUpdate.description = action.payload.description;
         taskToUpdate.completed = action.payload.completed;
         taskToUpdate.priority = action.payload.priority;
+        state.message = "Task updated";
       })
       .addCase(editTask.rejected, (state, action) => {
         state.isError = true;

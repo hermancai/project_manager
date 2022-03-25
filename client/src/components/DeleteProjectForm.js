@@ -2,7 +2,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { resetModal } from "../features/modal/modalSlice";
 import { deleteProject } from "../features/projects/projectSlice";
-import { toast } from "react-toastify";
 
 function DeleteProjectForm() {
   const navigate = useNavigate();
@@ -13,7 +12,6 @@ function DeleteProjectForm() {
     dispatch(resetModal());
     dispatch(deleteProject(projectId));
     navigate("/projects");
-    toast.success("Project deleted");
   };
 
   return (

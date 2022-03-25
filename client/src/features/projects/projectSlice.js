@@ -50,6 +50,7 @@ export const projectSlice = createSlice({
       .addCase(createProject.fulfilled, (state, action) => {
         state.isSuccess = true;
         state.projects.push(action.payload);
+        state.message = "Project added";
       })
       .addCase(createProject.rejected, (state, action) => {
         state.isError = true;
@@ -58,6 +59,7 @@ export const projectSlice = createSlice({
       .addCase(deleteProject.fulfilled, (state, action) => {
         state.isSuccess = true;
         state.projects = state.projects.filter((item) => item._id !== action.payload._id);
+        state.message = "Project deleted";
       })
       .addCase(deleteProject.rejected, (state, action) => {
         state.isError = true;

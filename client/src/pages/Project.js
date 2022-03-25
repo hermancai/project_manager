@@ -6,13 +6,18 @@ import { getProject, resetProject } from "../features/currentProject/currentProj
 import { setActiveForm } from "../features/modal/modalSlice";
 import Spinner from "../components/Spinner";
 import TaskTable from "../components/tasks/TaskTable";
+import { toast } from "react-toastify";
 
 function Project() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const { project, isLoading } = useSelector((state) => state.currentProject);
+  const { project, isLoading, message } = useSelector((state) => state.currentProject);
+
+  useEffect(() => {
+    if (message) toast.info(message);
+  }, [message]);
 
   useEffect(() => {
     dispatch(getProject({ id: location.pathname.split("/")[2] }));

@@ -6,6 +6,7 @@ import { setActiveForm } from "../features/modal/modalSlice";
 import { PlusIcon, PencilIcon } from "@heroicons/react/solid";
 import ProjectCard from "../components/ProjectCard";
 import Spinner from "../components/Spinner";
+import { toast } from "react-toastify";
 
 function Projects() {
   const dispatch = useDispatch();
@@ -15,10 +16,10 @@ function Projects() {
   const { projects, isLoading, isError, message } = useSelector((state) => state.projects);
 
   useEffect(() => {
-    if (isError) {
-      alert(message);
-    }
+    if (message) toast.info(message);
+  }, [message]);
 
+  useEffect(() => {
     if (!user) {
       navigate("/");
     }
@@ -28,7 +29,7 @@ function Projects() {
     return () => {
       dispatch(resetProjects());
     };
-  }, [user, isError, message, dispatch, navigate]);
+  }, [user, isError, dispatch, navigate]);
 
   return (
     <>
