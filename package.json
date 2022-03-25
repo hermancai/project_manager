@@ -1,0 +1,21 @@
+{
+  "name": "project_manager",
+  "version": "1.0.0",
+  "description": "Web app for managing personal projects",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "heroku-prebuild": "npm install --prefix server",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hermancai/project_manager.git"
+  },
+  "author": "Herman Cai",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hermancai/project_manager/issues"
+  },
+  "homepage": "https://github.com/hermancai/project_manager#readme"
+}
