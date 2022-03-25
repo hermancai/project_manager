@@ -12,7 +12,10 @@ function ProjectCard({ data }) {
     <div className="flex flex-col border border-slate-900 rounded w-full whitespace-pre-wrap overflow-hidden">
       <div className="flex items-center justify-between text-white bg-slate-900 p-3">
         <h3 className="font-bold break-words max-w-[80%]">{data.name}</h3>
-        <div className="p-3 hover:bg-slate-700 rounded-full cursor-pointer" onClick={goToProject}>
+        <div
+          className="p-3 hover:bg-slate-700 rounded-full cursor-pointer"
+          onClick={goToProject}
+        >
           <PencilIcon className="h-5" />
         </div>
       </div>
@@ -22,7 +25,9 @@ function ProjectCard({ data }) {
         <br />
         {data.description ?? <span className="text-gray-600 italic">N/A</span>}
       </p>
-      <p className="p-3 bg-slate-200">Tasks: {data.taskCount}</p>
+      <p className="p-3 bg-slate-200">
+        Incomplete Tasks: {data.incompleteTaskCount} of {data.totalTaskCount}
+      </p>
     </div>
   );
 }

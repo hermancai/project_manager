@@ -1,3 +1,4 @@
+const e = require("express");
 const asyncHandler = require("express-async-handler");
 const Project = require("../models/projectModel");
 const Task = require("../models/taskModel");
@@ -23,9 +24,17 @@ const editProject = asyncHandler(async (req, res) => {
   let project;
 
   if (description) {
-    project = await Project.findByIdAndUpdate(id, { name: name, description: description }, { new: true });
+    project = await Project.findByIdAndUpdate(
+      id,
+      { name: name, description: description },
+      { new: true }
+    );
   } else {
-    project = await Project.findByIdAndUpdate(id, { name: name, $unset: { description: "" } }, { new: true });
+    project = await Project.findByIdAndUpdate(
+      id,
+      { name: name, $unset: { description: "" } },
+      { new: true }
+    );
   }
 
   if (!project) {
@@ -53,7 +62,9 @@ const addTask = asyncHandler(async (req, res) => {
     throw new Error("Error adding task");
   }
 
-  await Project.findByIdAndUpdate(project, { $inc: { taskCount: 1 } });
+  await Project.findByIdAndUpdate(project, {
+    $inc: { incompleteTaskCount: completed ? 0 : 1, totalTaskCount: 1 },
+  });
 
   res.status(200).json(task);
 });
@@ -62,9 +73,11 @@ const addTask = asyncHandler(async (req, res) => {
 // @route   DELETE /api/project/task
 // @access  Private
 const deleteTask = asyncHandler(async (req, res) => {
-  const { projectId, taskId } = req.body;
+  const { projectId, taskId, completed } = req.body;
   const task = await Task.findByIdAndDelete(taskId);
-  await Project.findByIdAndUpdate(projectId, { $inc: { taskCount: -1 } });
+  await Project.findByIdAndUpdate(projectId, {
+    $inc: { incompleteTaskCount: completed ? 0 : -1, totalTaskCount: -1 },
+  });
 
   res.status(200).json(task);
 });
@@ -74,11 +87,19 @@ const deleteTask = asyncHandler(async (req, res) => {
 // @access  Private
 const editTask = asyncHandler(async (req, res) => {
   const { projectId, taskId, description, completed, priority } = req.body;
-  const task = await Task.findByIdAndUpdate(
-    taskId,
-    { description: description, completed: completed, priority: priority },
-    { returnDocument: "after" }
-  );
+
+  const task = await Task.findById(taskId);
+  await Project.findByIdAndUpdate(projectId, {
+    $inc: {
+      incompleteTaskCount:
+        task.completed === completed ? 0 : completed ? -1 : 1,
+    },
+  });
+
+  task.description = description;
+  task.completed = completed;
+  task.priority = priority;
+  await task.save();
 
   if (!task) {
     res.status(400);

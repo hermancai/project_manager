@@ -14,7 +14,11 @@ const projectSchema = mongoose.Schema(
     description: {
       type: String,
     },
-    taskCount: {
+    incompleteTaskCount: {
+      type: Number,
+      default: 0,
+    },
+    totalTaskCount: {
       type: Number,
       default: 0,
     },
