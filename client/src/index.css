@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .customButton {
+    @apply flex flex-row justify-center items-center gap-2 p-3 text-white bg-slate-900 rounded cursor-pointer;
+  }
+
+  .grayInput {
+    @apply border-2 border-gray-400 rounded outline-none focus:border-gray-700 p-2;
+  }
+}
