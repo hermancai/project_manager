@@ -2,6 +2,7 @@ import axios from "axios";
 
 const API_URL = "/api/users/";
 
+// POST /api/users
 const register = async (userData) => {
   const response = await axios.post(API_URL, userData);
 
@@ -12,6 +13,7 @@ const register = async (userData) => {
   return response.data;
 };
 
+// POST /api/users/login
 const login = async (userData) => {
   const response = await axios.post(API_URL + "login", userData);
 

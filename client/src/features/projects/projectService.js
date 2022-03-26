@@ -2,6 +2,7 @@ import axios from "axios";
 
 const API_URL = "/api/projects";
 
+// POST /api/projects
 const createProject = async (data, token) => {
   const config = {
     headers: {
@@ -13,6 +14,7 @@ const createProject = async (data, token) => {
   return response.data;
 };
 
+// GET /api/projects
 const getProjects = async (token) => {
   const config = {
     headers: {
@@ -24,6 +26,7 @@ const getProjects = async (token) => {
   return response.data;
 };
 
+// DELETE /api/projects/:id
 const deleteProject = async (id, token) => {
   const config = {
     headers: {

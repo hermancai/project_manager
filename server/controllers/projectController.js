@@ -1,4 +1,3 @@
-const e = require("express");
 const asyncHandler = require("express-async-handler");
 const Project = require("../models/projectModel");
 const Task = require("../models/taskModel");
