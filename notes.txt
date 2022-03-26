@@ -1,0 +1,18 @@
+RESOURCES:
+https://github.com/remix-run/react-router/blob/main/docs/getting-started/concepts.md
+https://dev.to/salarc123/mern-stack-authentication-tutorial-part-2-the-frontend-gen
+https://levelup.gitconnected.com/authentication-using-jwt-in-mern-1cc5c8ccd03c
+
+
+
+TODO:
+-optional: toggle hide completed tasks
+
+-refactor 
+-add comments to code
+-add 404 and 500 pages to server
+
+-merge to main. deploy from main
+-update readme (there are 3). take screenshots
+-include .envexample
+-fix everything in public folder. change logo svg
