@@ -11,20 +11,29 @@ const initialState = {
   message: "",
 };
 
-export const register = createAsyncThunk("auth/register", async (user, thunkAPI) => {
-  try {
-    return await authService.register(user);
-  } catch (err) {
-    const message = (err.response && err.response.data && err.response.data.message) || err.message || err.toString();
-    return thunkAPI.rejectWithValue(message);
+export const register = createAsyncThunk(
+  "auth/register",
+  async (user, thunkAPI) => {
+    try {
+      return await authService.register(user);
+    } catch (err) {
+      const message =
+        (err.response && err.response.data && err.response.data.message) ||
+        err.message ||
+        err.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
   }
-});
+);
 
 export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {
   try {
     return await authService.login(user);
   } catch (err) {
-    const message = (err.response && err.response.data && err.response.data.message) || err.message || err.toString();
+    const message =
+      (err.response && err.response.data && err.response.data.message) ||
+      err.message ||
+      err.toString();
     return thunkAPI.rejectWithValue(message);
   }
 });
@@ -42,6 +51,10 @@ export const authSlice = createSlice({
       state.isError = false;
       state.isSuccess = false;
       state.message = "";
+    },
+    removeUser: (state) => {
+      localStorage.clear();
+      state.user = null;
     },
   },
   extraReducers: (builder) => {
@@ -80,5 +93,5 @@ export const authSlice = createSlice({
   },
 });
 
-export const { resetUser } = authSlice.actions;
+export const { resetUser, removeUser } = authSlice.actions;
 export default authSlice.reducer;
