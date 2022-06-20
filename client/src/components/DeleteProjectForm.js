@@ -17,7 +17,8 @@ function DeleteProjectForm() {
   return (
     <div>
       <h3 className="text-lg font-medium leading-6 text-slate-900">
-        Are you sure you want to delete this project? Related tasks and bugs will also be deleted.
+        Are you sure you want to delete this project? Related tasks will also be
+        deleted.
       </h3>
       <div className="flex flex-row justify-evenly mt-6">
         <button
@@ -27,7 +28,11 @@ function DeleteProjectForm() {
         >
           No
         </button>
-        <button type="button" className="rounded px-10 py-2 bg-red-300 hover:bg-red-400" onClick={handleDelete}>
+        <button
+          type="button"
+          className="rounded px-10 py-2 bg-red-300 hover:bg-red-400"
+          onClick={handleDelete}
+        >
           Yes
         </button>
       </div>
