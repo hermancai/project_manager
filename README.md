@@ -1,8 +1,10 @@
 # Personal Project Manager
 
-Hosted here: https://mern-ppm.herokuapp.com
+Built with:
 
-MERN stack web app built with Redux Toolkit and Tailwind CSS.
+React, Redux, TailwindCSS
+
+Node, Express, MongoDB
 
 This app allows users to create accounts and keep track of their projects/tasks.
 
